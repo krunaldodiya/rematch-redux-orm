@@ -1,0 +1,5 @@
+reselect
+normalizr
+immer
+redux-persist
+redux-orm
