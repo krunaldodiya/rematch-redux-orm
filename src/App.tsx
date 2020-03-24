@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./store";
 
-const Home = lazy(() => import("./Home"));
+const Home = lazy(() => import("./screens/Home"));
 
 function App() {
   const persistor = getPersistor();

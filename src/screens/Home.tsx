@@ -1,23 +1,35 @@
 import React, { lazy, Suspense, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "./store";
+import { orm } from "../orm";
+import { Dispatch } from "../store";
 
-const TodoItem = lazy(() => import("./TodoItem"));
+const TodoItem = lazy(() => import("../components/TodoItem"));
 
 function Home() {
   const dispatch: Dispatch = useDispatch();
-  const { todos } = useSelector((state: any) => {
+
+  const { authors } = useSelector((state: any) => {
+    const session = orm.session(state.orm);
+
     return {
-      todos: state.todoStore.todos
+      todos: state.todoStore.todos,
+      authors: session.Author.all()
+        .toModelArray()
+        .map(model => {
+          return {
+            ...model.ref,
+            books: model.books.all().toRefArray()
+          };
+        })
     };
   });
 
   const [name, setName] = useState("");
 
-  const addTodoHandler = useCallback(
+  const addAuthorHandler = useCallback(
     e => {
       e.preventDefault();
-      dispatch.todoStore.addTodo(name);
+      dispatch.todoStore.addAuthor({ name });
       setName("");
     },
     [dispatch, name]
@@ -33,17 +45,17 @@ function Home() {
             value={name}
           />
 
-          <button type="submit" onClick={addTodoHandler}>
-            add todo
+          <button type="submit" onClick={addAuthorHandler}>
+            add author
           </button>
         </form>
       </div>
 
       <div>
-        {todos.map((todo: string, index: number) => {
+        {authors.map((author: string, index: number) => {
           return (
             <Suspense fallback={null} key={index}>
-              <TodoItem todo={todo} />
+              <TodoItem author={author} />
             </Suspense>
           );
         })}

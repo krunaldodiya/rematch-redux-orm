@@ -1,7 +1,11 @@
 import produce from "immer";
 import { Dispatch } from "..";
 
-const initialState: any = {
+type InitialState = {
+  todos: string[];
+};
+
+const initialState: InitialState = {
   todos: []
 };
 
@@ -9,15 +13,19 @@ const todoStore = {
   state: initialState,
 
   reducers: {
-    add: produce((state: any, payload: any) => {
+    add: produce((state: InitialState, payload: any) => {
       state.todos.push(payload);
     })
   },
 
   effects: (dispatch: Dispatch) => {
     return {
-      addTodo: async (payload: any, rootState: any) => {
-        dispatch.todoStore.add(payload);
+      addAuthor: async (payload: any, rootState: any) => {
+        dispatch({ type: "ADD_AUTHOR", payload });
+      },
+
+      addBook: async (payload: any, rootState: any) => {
+        dispatch({ type: "ADD_BOOK", payload });
       }
     };
   }
