@@ -6,7 +6,7 @@
     "@rematch/core": "^1.4.0",
     "@rematch/loading": "^1.2.1",
     "@rematch/persist": "^1.1.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "immer": "^6.0.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
